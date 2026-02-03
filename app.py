@@ -1,9 +1,10 @@
-from flask import Flask;
+from flask import Flask
+from flask import render_template
 app = Flask(__name__)
 
 @app.route('/') # --> Halaman utama
 def home():
-    return "<h1>Welcome to the Home Page</h1>"
+    return render_template('game.html')
 
 # Program dibawah memastikan server nya berjalan ketika aplikasi di eksekusi
 if __name__ == '__main__':
