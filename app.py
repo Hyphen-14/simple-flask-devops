@@ -7,5 +7,6 @@ def home():
 
 # Program dibawah memastikan server nya berjalan ketika aplikasi di eksekusi
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port = 5000, debug = True)
+    app.run(host = '0.0.0.0', port = 7860, debug = True)
 # 0.0.0.0 merupakan Ip address yang bisa diakses dari luar
+# huggingface menggunakan port 7860 secara default
