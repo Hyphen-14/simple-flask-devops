@@ -1,16 +1,9 @@
-import os
 from flask import Flask
 from flask import render_template
-
-base_dir = os.path.dirname(os.path.dirname(__file__))
 app = Flask(__name__)
 
 @app.route('/') # --> Halaman utama
 def home():
-    file_path = os.path.join(base_dir, 'game.html')
-    if not os.path.exists(file_path):
-        return f"<h1>Error: File game.html tidak ditemukan di {file_path}!</h1><p>Cek tab Files apakah sudah terupload?</p>"
-    
     return render_template('game.html')
 
 # Program dibawah memastikan server nya berjalan ketika aplikasi di eksekusi
