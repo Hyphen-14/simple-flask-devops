@@ -3,29 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Code Breaker v2.0</title>
+    <title>Cyber Code Breaker - Security Protocol</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
+      
         body {
             background-color: #0d0d0d;
             color: #00ff41;
-            font-family: 'Orbitron', sans-serif; 
+            font-family: 'Orbitron', sans-serif;
             margin: 0;
             height: 100vh;
-            overflow: hidden;
+            overflow: hidden; 
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
 
+       
         #matrixCanvas {
             position: absolute;
             top: 0;
             left: 0;
-            z-index: -1; 
-            opacity: 0.2; 
+            z-index: -1;
+            opacity: 0.15;
         }
 
+   
         .container {
             text-align: center;
             border: 2px solid #00ff41;
@@ -37,10 +41,12 @@
             border-radius: 5px;
             position: relative;
             z-index: 10;
+            transition: box-shadow 0.5s ease;
         }
 
-        h1 { letter-spacing: 3px; margin-bottom: 10px; }
+        h1 { letter-spacing: 3px; margin-bottom: 10px; font-size: 24px; }
         
+      
         input {
             background: #000;
             border: 1px solid #00ff41;
@@ -55,40 +61,66 @@
             border-radius: 5px;
         }
 
-        input:focus { box-shadow: 0 0 10px #00ff41; }
+        input:focus { box-shadow: 0 0 15px #00ff41; }
 
         button {
             background: #00ff41;
             color: black;
             border: none;
             padding: 12px 30px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: 0.3s;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%); /* Bentuk futuristik */
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
         }
 
-        button:hover {
-            background: #fff;
-            box-shadow: 0 0 15px #fff;
-        }
-
+        button:hover { background: #fff; box-shadow: 0 0 20px #fff; }
         button:active { transform: scale(0.95); }
 
         .message { 
             margin-top: 25px; 
-            font-size: 16px; 
+            font-size: 14px; 
             min-height: 20px;
             text-shadow: 0 0 5px #00ff41;
         }
 
+       
+        .author-footer {
+            position: fixed; 
+            bottom: 20px;    
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #00ff41;
+            opacity: 0.7;
+            z-index: 20;
+            animation: breathe 3s infinite ease-in-out;
+        }
+        
+        .author-name {
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            background: #00ff41;
+            color: black;
+            padding: 2px 8px;
+            margin-left: 5px;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; text-shadow: 0 0 10px #00ff41; }
+        }
+
+   
         .shake-anim {
             animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-            color: #ff3333 !important; 
-            text-shadow: 0 0 5px red;
+            color: #ff3333 !important;
+            text-shadow: 0 0 8px red;
         }
 
         @keyframes shake {
@@ -98,31 +130,20 @@
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
 
-        #success-screen {
-            display: none; 
-            text-align: center;
-        }
-
+        
+        #success-screen { display: none; }
+        
         .github-icon img {
-            width: 80px;
-            filter: drop-shadow(0 0 10px #00ff41);
+            width: 70px;
+            filter: drop-shadow(0 0 5px #00ff41);
             transition: transform 0.5s;
             margin-top: 20px;
             cursor: pointer;
         }
-
         .github-icon img:hover {
-            transform: scale(1.2) rotate(360deg);
+            transform: scale(1.1) rotate(360deg);
             filter: drop-shadow(0 0 20px white);
         }
-
-        .access-granted {
-            font-size: 30px;
-            color: #00ff41;
-            animation: blink 0.5s infinite alternate;
-        }
-
-        @keyframes blink { from {opacity: 1;} to {opacity: 0.3;} }
 
     </style>
 </head>
@@ -133,35 +154,50 @@
     <div class="container">
         <div id="game-screen">
             <h1>🔒 SYSTEM LOCKED</h1>
-            <p style="font-size: 12px; opacity: 0.8;">[ SECURITY LEVEL: MAX ]</p>
-            <p>Masukkan Override Code (1-100)</p>
+            <p style="font-size: 11px; opacity: 0.8; margin-top: -10px;">[ ENCRYPTION: AES-256 ]</p>
+            <br>
+
+        <div style="border: 1px solid #00ff00; padding: 12px; margin: 10px 0; background: rgba(0,255,0,0.05);">
+            <p style="font-size: 11px; margin: 0; color: #00ff00; font-family: 'Courier New', monospace;">
+                > MISSION: Guess the secret number between 1-100<br>
+                > Each attempt will provide directional hints<br>
+                > Decrypt the system to unlock access
+            </p>
+        </div>
+        
+            <p>INPUT SECURITY OVERRIDE CODE</p>
             
             <input type="number" id="guessInput" placeholder="00" min="1" max="100">
             <br>
-            <button onclick="checkCode()">DECRYPT</button>
+            <button onclick="checkCode()">INITIATE DECRYPT</button>
             
-            <div class="message" id="message">STATUS: AWAITING INPUT...</div>
+            <div class="message" id="message">STATUS: WAITING FOR INPUT...</div>
         </div>
 
         <div id="success-screen">
-            <h1 class="access-granted">ACCESS GRANTED</h1>
-            <p>ROOT PRIVILEGES OBTAINED</p>
-            <hr style="border-color: #00ff41; width: 50%;">
-            <p>Welcome, Administrator.</p>
+            <h1 style="color: #00ff41; text-shadow: 0 0 20px #00ff41;">ACCESS GRANTED</h1>
+            <p>ROOT PRIVILEGES RESTORED</p>
+            <hr style="border-color: #00ff41; width: 60%; opacity: 0.5;">
             
+            <p style="margin-top: 20px;">Connect to Mainframe:</p>
             <a href="https://github.com/Hyphen-14" target="_blank" class="github-icon">
                 <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub Repo">
             </a>
-            <p style="font-size: 10px; margin-top: 10px;">CLICK ICON TO ACCESS SOURCE</p>
+            <p style="font-size: 10px; margin-top: 10px; opacity: 0.8;">TAP ICON TO VIEW SOURCE CODE</p>
         </div>
     </div>
 
+    <div class="author-footer">
+        SYSTEM ARCHITECT: <span class="author-name">YASIN AGHYAR</span>
+    </div>
+
     <script>
+        // MATRIX RAIN EFFECT
         const canvas = document.getElementById('matrixCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        const letters = "01010101ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const letters = "01XYZ";
         const fontSize = 14;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
@@ -178,13 +214,11 @@
                 drops[i]++;
             }
         }
-        setInterval(drawMatrix, 33);
+        setInterval(drawMatrix, 40);
 
-
+        // ---GAME LOGIC---
         let secretCode = Math.floor(Math.random() * 100) + 1;
         let attempts = 0;
-        
-        const errorSfx = new Audio('https://www.soundjay.com/buttons/sounds/button-10.mp3');
 
         function checkCode() {
             let inputField = document.getElementById("guessInput");
@@ -193,34 +227,34 @@
             let gameScreen = document.getElementById("game-screen");
             let successScreen = document.getElementById("success-screen");
 
+            // Reset Animasi
             msg.classList.remove("shake-anim");
-
             void msg.offsetWidth; 
+
+            if (!userGuess) {
+                msg.innerHTML = "⚠️ WARNING: INPUT CANNOT BE EMPTY";
+                msg.classList.add("shake-anim");
+                return;
+            }
 
             attempts++;
 
             if (userGuess == secretCode) {
-                // ---KONDISI MENANG---
-                // 1. Sembunyikan Game Screen
+                // Menang
                 gameScreen.style.display = "none";
-                // 2. Munculkan Success Screen
                 successScreen.style.display = "block";
-                // 3. Ubah border container jadi solid 
-                document.querySelector('.container').style.boxShadow = "0 0 50px #00ff41";
-
+                document.querySelector('.container').style.boxShadow = "0 0 60px #00ff41";
             } else {
-                // ---KONDISI SALAH---
-                // Tambahkan class animasi getar
+                // Kalah
                 msg.classList.add("shake-anim");
-                
-                if (userGuess < secretCode) {
-                    msg.innerHTML = "❌ ERROR: CODE TOO LOW!";
-                } else if (userGuess > secretCode) {
-                    msg.innerHTML = "❌ ERROR: CODE TOO HIGH!";
-                }
-                
                 inputField.value = "";
                 inputField.focus();
+
+                if (userGuess < secretCode) {
+                    msg.innerHTML = "❌ ACCESS DENIED: CODE TOO LOW";
+                } else {
+                    msg.innerHTML = "❌ ACCESS DENIED: CODE TOO HIGH";
+                }
             }
         }
     </script>
