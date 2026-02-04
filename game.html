@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Code Breaker</title>
     <style>
-        /* CSS: Membuat Tampilan Matrix / Hacker Style */
+        
         body {
             background-color: #0d0d0d;
-            color: #00ff41; /* Warna hijau hacker */
+            color: #00ff41; 
             font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
@@ -105,7 +105,7 @@
         function checkCode() {
             let userGuess = document.getElementById("guessInput").value;
             let msg = document.getElementById("message");
-            attempts++;
+            attempts++; 
 
             if (userGuess == secretCode) {
                 msg.style.color = "#00ff41";
